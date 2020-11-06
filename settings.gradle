@@ -1,2 +1,2 @@
 rootProject.name='UmengLibDemo'
-include ':app'
+include ':app', ':umengLibrary'
