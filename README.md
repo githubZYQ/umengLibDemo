@@ -175,7 +175,7 @@ public static final int *;
 测试模式：https://developer.umeng.com/docs/67966/detail/153908#h3--1
 
 ## 第六步：厂商、离线推送配置(不需要厂商推送可以忽略)
-厂商push（信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589,可根据集成注册了哪些厂商自由选择
+厂商push,可根据集成注册了哪些厂商自由选择（信息申请注册官方指导文档）：https://developer.umeng.com/docs/67966/detail/98589
 
 //魅族厂商通道（不需要可跳过）
  1. 自定义Recevier组件受魅族接入方式限制，必须在包名目录实现一个自定义Recevier，继承自MeizuPushReceiver，例如：
