@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion 16
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -34,27 +34,29 @@ dependencies {
 
     // 下面各SDK根据宿主App是否使用相关业务按需引入。
     // OAID目前为目前国内市场主流的Android Q设备标识，可根据需要选择。
-    // 友盟统计SDK
-    api 'com.umeng.umsdk:common:9.1.6' // (必选)
+    // 基础组件库依赖(必须) Push 6.2.0版本必须升级新版本Common SDK
+    api 'com.umeng.umsdk:common:9.3.0' // (必选)
     api 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
-    api 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+    api 'com.umeng.umsdk:crash:0.0.5' // native crash包依赖(必选)
+    api 'com.umeng.umsdk:utdid:1.5.2' //设备唯一标识
 
     implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
     implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
     implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
     implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
 
-    //基础组件库依赖(必须) Push 6.1.0版本必须升级新版本Common SDK
-    api 'com.umeng.umsdk:utdid:1.5.2'
+    implementation "com.umeng.umsdk:game:9.1.0+G" // 游戏统计SDK依赖(可选)
+
+
 
     //友盟push相关依赖(必须)
-    api 'com.umeng.umsdk:push:6.1.0'
+    api 'com.umeng.umsdk:push:6.2.0'
 
     api 'com.umeng.umsdk:alicloud-httpdns:1.2.5'
     api 'com.umeng.umsdk:alicloud-utils:1.1.5'
     api 'com.umeng.umsdk:alicloud_beacon:1.0.1'
 
-    api 'com.umeng.umsdk:agoo-accs:3.3.8.8-open-fix2'
+    api 'com.umeng.umsdk:agoo-accs:3.3.9.7-open'
     api 'com.umeng.umsdk:agoo_networksdk:3.5.5'
     api 'com.umeng.umsdk:agoo_tlog:3.0.0.17'
     api 'com.umeng.umsdk:agoo_tnet4android:3.1.14.9'
