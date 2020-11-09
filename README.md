@@ -43,7 +43,8 @@ dependencies {
 	        implementation 'com.github.githubZYQ:umengLibDemo:1.0.0'
 	}
 ```
-[![](https://www.jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://www.jitpack.io/#githubZYQ/umengLibDemo)
+umengLibDemo最新版本
+[![umengLibDemo](https://www.jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://www.jitpack.io/#githubZYQ/umengLibDemo)
 
 ## 第二步：清单配置
 （${applicationId}换为自己主工程的包名）
