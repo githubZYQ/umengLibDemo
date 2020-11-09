@@ -1,13 +1,14 @@
 # umengLibDemo
-目的：快速集成友盟统计和推送（包含厂商推送、离线推送功能）。由于多个公司项目需要集成友盟统计和推送，
+**目的：** </br>
+快速集成友盟统计和推送（包含厂商推送、离线推送功能）。由于多个公司项目需要集成友盟统计和推送，
 每次友盟有新的版本变更需要挨个去维护升级，加之项目需要使用，故抽取友盟统计和推送公共内容和配置抽取为工具库，
 方便后续集成和维护升级。
 本库适用于已经注册、集成过友盟推进和推送者。
-> Umeng官方文档：https://developer.umeng.com/sdk/android
-> 统计：https://developer.umeng.com/docs/119267/detail/118584
-> Push：https://developer.umeng.com/docs/67966/detail/153908
-> 高级（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583
-> 厂商通道（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589
+> **Umeng官方文档**：https://developer.umeng.com/sdk/android </br>
+> **统计**：https://developer.umeng.com/docs/119267/detail/118584 </br>
+> **Push**：https://developer.umeng.com/docs/67966/detail/153908 </br>
+> **Push高阶使用**（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583 </br>
+> **厂商通道**（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589 </br>
 ## 第一步：配置maven库
 在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。
 maven { url 'https://dl.bintray.com/umsdk/release' }
@@ -57,12 +58,11 @@ android:exported="false">
 ```
 
 ## 第三步：Push资源配置（可选，不需要可跳过）
-1.需要自定义默认的logo图片、通知音等可参考官方文档放置资源
+1. 需要自定义默认的logo图片、通知音等可参考官方文档放置资源
 https://developer.umeng.com/docs/67966/detail/98583
 
-2.（可选，不集成厂商推送魅族push可跳过）魅族手机配置系统通知图标
-请在drawable目录下添加一个图标，命名为stat_sys_third_app_notify.png，建议尺寸64px * 64px，图标四周留有透明。若不添加此图标，可能在部分魅族手机上无法弹出通知。
-==================================================================================================
+2. 魅族手机配置系统通知图标（可选，不集成厂商推送魅族push可跳过）
+如有需要请在drawable目录下添加一个图标，命名为stat_sys_third_app_notify.png，建议尺寸64px * 64px，图标四周留有透明。若不添加此图标，可能在部分魅族手机上无法弹出通知。
 
 ## 第四步：初始化配置
 1. Application的onCreate中增加initPush();
@@ -114,6 +114,7 @@ private void initPush(){
 在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加：
 ```
 PushAgent.getInstance(this).onAppStart();
+```
 ## 第五步：混淆配置
 如果项目开启打包混淆，需要添加如下混淆代码，如果未开启混淆可忽略跳过。
 ```

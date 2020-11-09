@@ -1,12 +1,12 @@
-Umeng官方文档：https://developer.umeng.com/sdk/android
-统计：https://developer.umeng.com/docs/119267/detail/118584
-Push：https://developer.umeng.com/docs/67966/detail/153908
-高级（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583
-厂商通道（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589
+Umeng官方文档：https://developer.umeng.com/sdk/android </br>
+统计：https://developer.umeng.com/docs/119267/detail/118584 </br>
+Push：https://developer.umeng.com/docs/67966/detail/153908 </br>
+高级（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583 </br>
+厂商通道（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589 </br>
 ==================================================================================================
 
 在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。
-maven { url 'https://dl.bintray.com/umsdk/release' }
+>maven { url 'https://dl.bintray.com/umsdk/release' }
 ```
 buildscript {
     repositories {
