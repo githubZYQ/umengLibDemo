@@ -8,7 +8,7 @@
 > **统计**：https://developer.umeng.com/docs/119267/detail/118584 </br>
 > **Push**：https://developer.umeng.com/docs/67966/detail/153908 </br>
 > **Push高阶使用**（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583 </br>
-> **厂商通道**（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589 </br>
+> **厂商通道**（离线推送、厂商push信息申请注册，包含：小米，华为，OPPO,VIVO,魅族）：https://developer.umeng.com/docs/67966/detail/98589 </br>
 ## 第一步：配置maven库
 在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。
 ```
