@@ -11,7 +11,9 @@
 > **厂商通道**（离线推送、厂商push信息申请注册）：https://developer.umeng.com/docs/67966/detail/98589 </br>
 ## 第一步：配置maven库
 在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。
+```
 maven { url 'https://dl.bintray.com/umsdk/release' }
+```
 ```
 buildscript {
     repositories {
