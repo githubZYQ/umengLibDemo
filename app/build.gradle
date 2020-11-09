@@ -36,4 +36,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(path: ':umengLibrary')
+//    implementation 'com.github.githubZYQ:umengLibDemo:1.0.0'
 }
