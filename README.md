@@ -86,12 +86,12 @@ IUmengRegisterCallback回调会传回注册成功和失败的信息,设备标志
 ```
 private void initPush(){
     String appKey ="友盟平台注册获取的appKey";
-    String appSecret ="友盟平台注册获取的appSecret";
+    String umengSecret ="友盟平台注册获取的umengSecret";
     new UMengBuilder()
           //关闭日志输出
           .setOpenLog(false)
           //配置app信息
-          .setAppkey(appKey,appSecret)
+          .setAppkey(appKey,umengSecret)
           //推送注册回调
            .setRegisterCallback(new IUmengRegisterCallback() {
                 @Override
