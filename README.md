@@ -11,16 +11,16 @@
 > **厂商通道**（离线推送、厂商push信息申请注册，包含：小米，华为，OPPO,VIVO,魅族）：https://developer.umeng.com/docs/67966/detail/98589 </br>
 ## 第一步：配置maven库,并引入库地址
 1. 添加mavern库地址和jitpack地址
-在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。
+在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。根据最新消息，jcenter即将停止服务，所以之前https://dl.bintray.com/umsdk/release 配置需要尽快更改到 https://repo1.maven.org/maven2 
 ```
-maven { url 'https://dl.bintray.com/umsdk/release' }
+maven { url 'https://repo1.maven.org/maven2/' }
 ```
 ```
 buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url 'https://www.jitpack.io' }
     }
     dependencies {
@@ -31,7 +31,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url 'https://www.jitpack.io' }
     }
 }
