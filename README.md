@@ -1,4 +1,5 @@
 # umengLibDemo
+[![](https://jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://jitpack.io/#githubZYQ/umengLibDemo)
 **目的：** </br>
 快速集成友盟统计和推送（包含厂商推送、离线推送功能）。由于多个公司项目需要集成友盟统计和推送，
 每次友盟有新的版本变更需要挨个去维护升级，加之项目需要使用，故抽取友盟统计和推送公共内容和配置抽取为工具库，
@@ -55,11 +56,11 @@ allprojects {
 在自己的app主工程gradle文件中添加
 ```
 dependencies {
-	        implementation 'com.github.githubZYQ:umengLibDemo:1.0.0'
+	         implementation 'com.github.githubZYQ:umengLibDemo:1.0.1'
 	}
 ```
 umengLibDemo最新版本
-[![umengLibDemo](https://www.jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://www.jitpack.io/#githubZYQ/umengLibDemo)
+[![](https://jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://jitpack.io/#githubZYQ/umengLibDemo)
 
 ## 第二步：清单配置
 （${applicationId}换为自己主工程的包名）
