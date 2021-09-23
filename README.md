@@ -9,6 +9,21 @@
 > **Push**：https://developer.umeng.com/docs/67966/detail/153908 </br>
 > **Push高阶使用**（自定义图标、通知音、通知栏样式、打开动作等）：https://developer.umeng.com/docs/67966/detail/98583 </br>
 > **厂商通道**（离线推送、厂商push信息申请注册，包含：小米，华为，OPPO,VIVO,魅族）：https://developer.umeng.com/docs/67966/detail/98589 </br>
+> **隐私合规指南**（官方隐私合规指导）:https://developer.umeng.com/docs/119267/detail/182050 </br>
+当前基于友盟库版本
+````
+    // 基础组件库依赖(必须)
+    api 'com.umeng.umsdk:common:9.4.2'
+    api 'com.umeng.umsdk:asms:1.4.1'
+    api 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+    implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
+    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
+    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
+    implementation "com.umeng.umsdk:game:9.2.0+G" // 游戏统计SDK依赖(可选)
+    //友盟Push依赖
+    api 'com.umeng.umsdk:push:6.4.0'
+````
 ## 第一步：配置maven库,并引入库地址
 1. 添加mavern库地址和jitpack地址
 在主工程build.gradle配置脚本中buildscript和allprojects段中添加【友盟+】SDK新maven仓库地址。根据最新消息，jcenter即将停止服务，所以之前https://dl.bintray.com/umsdk/release 配置需要尽快更改到 https://repo1.maven.org/maven2 
@@ -84,6 +99,13 @@ https://developer.umeng.com/docs/67966/detail/98583
 最后build()开始执行初始化；
 IUmengRegisterCallback回调会传回注册成功和失败的信息,设备标志deviceToken可在onSuccess中获取。
 ```
+//预初始化（满足隐私合规政策，如不需要，可直接调用initPush()）
+UMengBuilder.preInit(this,appKey,appSecret,appChannel);
+//友盟push信息初始化-用户点击隐私协议弹窗“同意”后再进行真正的初始化
+boolean agree = true;
+if(agree){
+   initPush();
+}
 private void initPush(){
     String appKey ="友盟平台注册获取的appKey";
     String umengSecret ="友盟平台注册获取的umengSecret";
@@ -132,8 +154,6 @@ PushAgent.getInstance(this).onAppStart();
 如果项目开启打包混淆，需要添加如下混淆代码，如果未开启混淆可忽略跳过。
 ```
 -keep public class [您的应用包名].R$*{
-public static final int *;
-}
 -keep class com.umeng.** {*;}
 
 -keep class com.uc.** {*;}
@@ -145,6 +165,25 @@ public static final int *;
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class org.android.agoo.xiaomi.MiPushBroadcastReceiver {*;}
+-dontwarn com.xiaomi.push.**
+
+-ignorewarnings
+-keepattributes *Annotation*, Exceptions, InnerClasses, Signature, SourceFile, LineNumberTable
+-keep class com.hianalytics.android.** {*;}
+-keep class com.huawei.updatesdk.** {*;}
+-keep class com.huawei.hms.** {*;}
+
+-keep class com.meizu.cloud.** {*;}
+-dontwarn com.meizu.cloud.**
+
+-keep public class * extends android.app.Service
+
+-dontwarn com.vivo.push.**
+-keep class com.vivo.push.** {*;}
+-keep class com.vivo.vms.** {*;}
+
 -keep class com.zui.** {*;}
 -keep class com.miui.** {*;}
 -keep class com.heytap.** {*;}
@@ -171,7 +210,6 @@ public static final int *;
 -keep class com.huawei.** {*;}
 -keep class com.meizu.** {*;}
 -keep class org.apache.thrift.** {*;}
--keep class org.android.agoo.* {*;}
 
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}

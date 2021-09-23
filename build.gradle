@@ -2,19 +2,24 @@
 
 buildscript {
     repositories {
+        maven { url 'http://192.168.0.223:8081/repository/maven-public/' }
+        maven { url 'https://developer.huawei.com/repo/'}
+        mavenCentral()
         google()
-        jcenter()
         maven { url 'https://dl.bintray.com/umsdk/release' }
 //        maven { url 'https://www.jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath 'com.huawei.agconnect:agcp:1.4.2.300'
     }
 }
 allprojects {
     repositories {
+        maven { url 'http://192.168.0.223:8081/repository/maven-public/' }
+        maven { url 'https://developer.huawei.com/repo/'}
+        mavenCentral()
         google()
-        jcenter()
         maven { url 'https://dl.bintray.com/umsdk/release' }
 //        maven { url 'https://www.jitpack.io' }
     }

@@ -43,16 +43,23 @@ public class MyApplication extends Application {
         myAPP = this;
         // 程序崩溃时触发
         Thread.setDefaultUncaughtExceptionHandler(new OwnUncaughtExceptionHandler());
+        UMengBuilder.preInit(this,appKey,appSecret,appChannel);
         //友盟push信息初始化
-        initPush();
+        boolean agree = true;
+        if(agree){
+            initPush();
+        }
     }
+    private final static String appChannel ="默认渠道";
+    private final static String appKey ="5fa4e6c71c520d3073a1d6f2";
+    private final static String appSecret ="baa0630e64efec1beeb43eed90fbed77";
+
 
     /**
      * 友盟push信息初始化
      */
     private void initPush(){
-        String appKey ="5fa4e6c71c520d3073a1d6f2";
-        String appSecret ="baa0630e64efec1beeb43eed90fbed77";
+
         new UMengBuilder()
                 //关闭日志输出
                 .setOpenLog(false)

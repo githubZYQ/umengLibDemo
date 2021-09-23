@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zyq.demo.umenglib">
 
     <application
         android:name=".base.MyApplication"
         android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -65,7 +67,7 @@
                 <!-- 兼容低版本Flyme3推送服务配置 -->
                 <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
                 <action android:name="com.meizu.c2dm.intent.RECEIVE" />
-                <category android:name="com.zyq.demo.umenglib"></category>
+                <category android:name="${applicationId}"></category>
             </intent-filter>
         </receiver>
         <!--魅族push应用定义消息receiver声明 end-->
@@ -73,7 +75,17 @@
         <activity android:name=".TestMiPushActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data
+                android:host="${applicationId}"
+                android:path="/thirdpush"
+                android:scheme="agoo" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

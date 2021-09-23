@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -29,28 +29,26 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     // 下面各SDK根据宿主App是否使用相关业务按需引入。
     // OAID目前为目前国内市场主流的Android Q设备标识，可根据需要选择。
-    // 基础组件库依赖(必须) Push 6.2.0版本必须升级新版本Common SDK
-    api 'com.umeng.umsdk:common:9.3.0' // (必选)
-    api 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
-    api 'com.umeng.umsdk:crash:0.0.5' // native crash包依赖(必选)
-    api 'com.umeng.umsdk:utdid:1.5.2' //设备唯一标识
+    // 基础组件库依赖(必须)
+    api 'com.umeng.umsdk:common:9.4.2'
+    api 'com.umeng.umsdk:asms:1.4.1'
+    api 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
+//    api 'com.umeng.umsdk:utdid:1.5.2' //设备唯一标识
 
     implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
     implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
     implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
     implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
 
-    implementation "com.umeng.umsdk:game:9.1.0+G" // 游戏统计SDK依赖(可选)
+    implementation "com.umeng.umsdk:game:9.2.0+G" // 游戏统计SDK依赖(可选)
 
-
-
-    //友盟push相关依赖(必须)
-    api 'com.umeng.umsdk:push:6.2.0'
+    //友盟Push依赖
+    api 'com.umeng.umsdk:push:6.4.0'
 
     api 'com.umeng.umsdk:alicloud-httpdns:1.2.5'
     api 'com.umeng.umsdk:alicloud-utils:1.1.5'
@@ -62,19 +60,18 @@ dependencies {
     api 'com.umeng.umsdk:agoo_tnet4android:3.1.14.9'
 
     //厂商push-华为
-    api 'com.umeng.umsdk:huawei-basetb:2.6.3.306'
-    api 'com.umeng.umsdk:huawei-pushtb:2.6.3.306'
-    api 'com.umeng.umsdk:huawei-umengaccs:1.2.4'
+    api 'com.umeng.umsdk:huawei-umengaccs:1.3.5'
+    api 'com.huawei.hms:push:5.3.0.304'
     //-魅族
-    api 'com.umeng.umsdk:meizu-push:3.8.7'
-    api 'com.umeng.umsdk:meizu-umengaccs:1.1.1'
+    api 'com.umeng.umsdk:meizu-umengaccs:1.1.5'
+    api 'com.umeng.umsdk:meizu-push:4.1.4'
     //-OPPO
-    api 'com.umeng.umsdk:oppo-push:2.0.2'
-    api 'com.umeng.umsdk:oppo-umengaccs:1.0.6'
+    api 'com.umeng.umsdk:oppo-umengaccs:1.0.7-fix'
+    api 'com.umeng.umsdk:oppo-push:2.1.0'
     //-VIVO
-    api 'com.umeng.umsdk:vivo-push:2.3.5'
-    api 'com.umeng.umsdk:vivo-umengaccs:1.1.0'
+    api 'com.umeng.umsdk:vivo-umengaccs:1.1.5'
+    api 'com.umeng.umsdk:vivo-push:3.0.0.3'
     //-小米
-    api 'com.umeng.umsdk:xiaomi-push:3.7.0'
-    api 'com.umeng.umsdk:xiaomi-umengaccs:1.1.4'
+    api 'com.umeng.umsdk:xiaomi-push:4.8.1'
+    api 'com.umeng.umsdk:xiaomi-umengaccs:1.2.6'
 }

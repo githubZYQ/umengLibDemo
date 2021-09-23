@@ -1,8 +1,12 @@
 package cn.nova.umenglibrary;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.taobao.accs.ACCSClient;
+import com.taobao.accs.AccsClientConfig;
+import com.taobao.agoo.TaobaoRegister;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -61,6 +65,19 @@ public class UMengBuilder {
             return;
         }
         this.context = application;
+        //建议在线程中执行初始化
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initPushSDK();
+            }
+        }).start();
+    }
+
+    /**
+     * 初始化推送SDK，在用户隐私政策协议同意后，再做初始化（不能将此逻辑放入Splash界面）。
+     */
+    private void initPushSDK(){
         // 在此处调用基础组件包提供的初始化函数 相应信息可在应用管理 -> 应用信息 中找到 http://message.umeng.com/list/apps
         // 参数一：当前上下文context；
         // 参数二：应用申请的Appkey（需替换）；
@@ -107,8 +124,14 @@ public class UMengBuilder {
             mPushAgent.setNotificationClickHandler(notificationClickHandler);
         }
 
-
         // 初始化厂商通道
+        registerDeviceChannel();
+    }
+
+    /**
+     * 注册设备推送通道（小米、华为等设备的推送）
+     */
+    private void registerDeviceChannel(){
         //小米通道
         if (!TextUtils.isEmpty(miId) && !TextUtils.isEmpty(miKey)) {
             MiPushRegistar.register(context, miId, miKey);
@@ -126,7 +149,7 @@ public class UMengBuilder {
         if (!TextUtils.isEmpty(oppoKey) && !TextUtils.isEmpty(oppoSecret)) {
             OppoRegister.register(context, oppoKey, oppoSecret);
         }
-        
+
         //VIVO 通道，注意VIVO通道的初始化参数在minifest中配置
         if(vivoPush){
             VivoRegister.register(context);
@@ -300,4 +323,27 @@ public class UMengBuilder {
         this.notificationClickHandler = notificationClickHandler;
         return this;
     }
+
+    /**
+     *
+     * @param context
+     * @param appKey
+     * @param appSecret
+     * @param appChannel
+     */
+    public static void preInit(Context context,String appKey,String appSecret,String appChannel) {
+        try {
+            //解决推送消息显示乱码的问题
+            AccsClientConfig.Builder builder = new AccsClientConfig.Builder();
+            builder.setAppKey(appKey);
+            builder.setAppSecret(appSecret);
+            builder.setTag(AccsClientConfig.DEFAULT_CONFIGTAG);
+            ACCSClient.init(context, builder.build());
+            TaobaoRegister.setAccsConfigTag(context, AccsClientConfig.DEFAULT_CONFIGTAG);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UMConfigure.preInit(context, appKey, appChannel);
+    }
+
 }
