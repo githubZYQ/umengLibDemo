@@ -1,6 +1,6 @@
 # umengLibDemo
-[![](https://jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://jitpack.io/#githubZYQ/umengLibDemo)
-**目的：** </br>
+[lib源码地址](https://github.com/githubZYQ/umengLibDemo)
+# 目的： </br>
 快速集成友盟统计和推送（包含厂商推送、离线推送功能）。由于多个公司项目需要集成友盟统计和推送，
 每次友盟有新的版本变更需要挨个去维护升级，加之项目需要使用，故抽取友盟统计和推送公共内容和配置抽取为工具库，
 方便后续集成和维护升级。
