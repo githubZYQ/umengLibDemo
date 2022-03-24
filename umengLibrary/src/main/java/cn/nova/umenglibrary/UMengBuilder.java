@@ -13,6 +13,7 @@ import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.api.UPushRegisterCallback;
 
 import org.android.agoo.huawei.HuaWeiRegister;
 import org.android.agoo.mezu.MeizuRegister;
@@ -45,9 +46,13 @@ public class UMengBuilder {
      */
     private String appChannel = "Umeng";
     /**
+     * AndroidManifest.xml中package值
+     */
+    private String appResourcePackageName = null;
+    /**
      * 初始化友盟推送的结果回调
      */
-    private IUmengRegisterCallback registerCallback = null;
+    private UPushRegisterCallback registerCallback = null;
     /**
      * 自定义通知栏样式.点击统计等
      */
@@ -58,26 +63,22 @@ public class UMengBuilder {
     private UmengNotificationClickHandler notificationClickHandler;
 
     /**
-     * 友盟初始化,在Application的onCreate调用
+     * 初始化推送SDK，在用户隐私政策协议同意后，再做初始化（不能将此逻辑放入Splash界面）。
+     * 返回PushAgent，可以继续设置一些需要的配置,如setDisplayNotificationNumber（设置通知栏显示通知的最大个数）
      */
-    public void build(Application application) {
+    public PushAgent build(Application application) {
         if (application == null) {
-            return;
+            return null;
         }
         this.context = application;
-        //建议在线程中执行初始化
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initPushSDK();
-            }
-        }).start();
+        return initPushSDK();
     }
 
     /**
      * 初始化推送SDK，在用户隐私政策协议同意后，再做初始化（不能将此逻辑放入Splash界面）。
+     * 返回PushAgent，可以继续设置一些需要的配置,如setDisplayNotificationNumber（设置通知栏显示通知的最大个数）
      */
-    private void initPushSDK(){
+    private PushAgent initPushSDK(){
         // 在此处调用基础组件包提供的初始化函数 相应信息可在应用管理 -> 应用信息 中找到 http://message.umeng.com/list/apps
         // 参数一：当前上下文context；
         // 参数二：应用申请的Appkey（需替换）；
@@ -92,12 +93,16 @@ public class UMengBuilder {
         //获取消息推送代理示例
         PushAgent mPushAgent = PushAgent.getInstance(context);
 
-        //以下事故天宇是不过
+        //设置资源包名
+        if(!TextUtils.isEmpty(appResourcePackageName)){
+            mPushAgent.setResourcePackageName(appResourcePackageName);
+        }
+
         if (TextUtils.isEmpty(secretString)) {
-            return;
+            return null;
         }
         //注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
+        mPushAgent.register(new UPushRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
                 //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
@@ -126,6 +131,7 @@ public class UMengBuilder {
 
         // 初始化厂商通道
         registerDeviceChannel();
+        return mPushAgent;
     }
 
     /**
@@ -281,11 +287,21 @@ public class UMengBuilder {
     }
 
     /**
+     * 设置AndroidManifest.xml中package值
+     * 若和build.gradle中applicationId不一致，需调用此方法设置资源包名
+     * @param appResourcePackageName
+     */
+    public UMengBuilder setAppResourcePackageName(String appResourcePackageName) {
+        this.appResourcePackageName = appResourcePackageName;
+        return this;
+    }
+
+    /**
      * (非必须)设置推送注册回调,获取devicetoken
      *
      * @param registerCallback
      */
-    public UMengBuilder setRegisterCallback(IUmengRegisterCallback registerCallback) {
+    public UMengBuilder setRegisterCallback(UPushRegisterCallback registerCallback) {
         this.registerCallback = registerCallback;
         return this;
     }
@@ -325,25 +341,16 @@ public class UMengBuilder {
     }
 
     /**
-     *
+     * 预初始化
      * @param context
      * @param appKey
      * @param appSecret
      * @param appChannel
+     * @deprecated 使用 PushHelper.preInit(context,appKey,appSecret,appChannel); 代替
      */
+    @Deprecated
     public static void preInit(Context context,String appKey,String appSecret,String appChannel) {
-        try {
-            //解决推送消息显示乱码的问题
-            AccsClientConfig.Builder builder = new AccsClientConfig.Builder();
-            builder.setAppKey(appKey);
-            builder.setAppSecret(appSecret);
-            builder.setTag(AccsClientConfig.DEFAULT_CONFIGTAG);
-            ACCSClient.init(context, builder.build());
-            TaobaoRegister.setAccsConfigTag(context, AccsClientConfig.DEFAULT_CONFIGTAG);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        UMConfigure.preInit(context, appKey, appChannel);
+        PushHelper.preInit(context,appKey,appSecret,appChannel);
     }
 
 }

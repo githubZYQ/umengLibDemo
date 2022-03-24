@@ -33,6 +33,25 @@ public static final int *;
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class org.android.agoo.xiaomi.MiPushBroadcastReceiver {*;}
+-dontwarn com.xiaomi.push.**
+
+-ignorewarnings
+-keepattributes *Annotation*, Exceptions, InnerClasses, Signature, SourceFile, LineNumberTable
+-keep class com.hianalytics.android.** {*;}
+-keep class com.huawei.updatesdk.** {*;}
+-keep class com.huawei.hms.** {*;}
+
+-keep class com.meizu.cloud.** {*;}
+-dontwarn com.meizu.cloud.**
+
+-keep public class * extends android.app.Service
+
+-dontwarn com.vivo.push.**
+-keep class com.vivo.push.** {*;}
+-keep class com.vivo.vms.** {*;}
+
 -keep class com.zui.** {*;}
 -keep class com.miui.** {*;}
 -keep class com.heytap.** {*;}
@@ -59,7 +78,6 @@ public static final int *;
 -keep class com.huawei.** {*;}
 -keep class com.meizu.** {*;}
 -keep class org.apache.thrift.** {*;}
--keep class org.android.agoo.* {*;}
 
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}

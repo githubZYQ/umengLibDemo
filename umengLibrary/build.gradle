@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+//group='com.gitee.zhang-yanqiang'
 
 android {
     compileSdkVersion 30
@@ -19,6 +21,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        afterEvaluate {
+        }
     }
     sourceSets {
         main {
@@ -26,6 +30,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -35,20 +43,22 @@ dependencies {
     // 下面各SDK根据宿主App是否使用相关业务按需引入。
     // OAID目前为目前国内市场主流的Android Q设备标识，可根据需要选择。
     // 基础组件库依赖(必须)
-    api 'com.umeng.umsdk:common:9.4.2'
-    api 'com.umeng.umsdk:asms:1.4.1'
-    api 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
-//    api 'com.umeng.umsdk:utdid:1.5.2' //设备唯一标识
+    api 'com.umeng.umsdk:common:9.4.4'
+    api  'com.umeng.umsdk:asms:1.4.1'
+    api 'com.umeng.umsdk:apm:1.5.2' //错误分析升级为独立SDK，看crash数据请一定集成
 
-    implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
-    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
-    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
-    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
+    //基础组件库依赖(必须) Push 6.1.0版本必须升级新版本Common SDK
+    api 'com.umeng.umsdk:utdid:1.5.2' //设备唯一标识
+
+//    implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
+//    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
 
     implementation "com.umeng.umsdk:game:9.2.0+G" // 游戏统计SDK依赖(可选)
 
     //友盟Push依赖
-    api 'com.umeng.umsdk:push:6.4.0'
+    api 'com.umeng.umsdk:push:6.5.0'
 
     api 'com.umeng.umsdk:alicloud-httpdns:1.2.5'
     api 'com.umeng.umsdk:alicloud-utils:1.1.5'

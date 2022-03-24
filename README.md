@@ -1,5 +1,5 @@
 # umengLibDemo
-[lib源码地址](https://github.com/githubZYQ/umengLibDemo)
+[lib源码地址](https://gitee.com/zhang-yanqiang/umeng-lib)
 # 目的： </br>
 快速集成友盟统计和推送（包含厂商推送、离线推送功能）。由于多个公司项目需要集成友盟统计和推送，
 每次友盟有新的版本变更需要挨个去维护升级，加之项目需要使用，故抽取友盟统计和推送公共内容和配置抽取为工具库，
@@ -14,16 +14,13 @@
 当前基于友盟库版本
 ````
     // 基础组件库依赖(必须)
-    api 'com.umeng.umsdk:common:9.4.2'
-    api 'com.umeng.umsdk:asms:1.4.1'
-    api 'com.umeng.umsdk:apm:1.4.2' // 错误分析升级为独立SDK，看crash数据请一定集成，可选
-    implementation 'com.umeng.umsdk:oaid_lenovo:1.0.0' // (可选)
-    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
-    implementation 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
-    implementation 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
+    api 'com.umeng.umsdk:common:9.4.4'
+    api  'com.umeng.umsdk:asms:1.4.1'
+    api 'com.umeng.umsdk:apm:1.5.2' //错误分析升级为独立SDK，看crash数据请一定集成
+
     implementation "com.umeng.umsdk:game:9.2.0+G" // 游戏统计SDK依赖(可选)
     //友盟Push依赖
-    api 'com.umeng.umsdk:push:6.4.0'
+    api 'com.umeng.umsdk:push:6.5.0'
 ````
 ## 第一步：配置maven库,并引入库地址
 1. 添加mavern库地址和jitpack地址
@@ -56,11 +53,12 @@ allprojects {
 在自己的app主工程gradle文件中添加
 ```
 dependencies {
-	         implementation 'com.github.githubZYQ:umengLibDemo:1.0.1'
+	        implementation 'com.gitee.zhang-yanqiang:umeng-lib:1.0.5'
 	}
 ```
 umengLibDemo最新版本
-[![](https://jitpack.io/v/githubZYQ/umengLibDemo.svg)](https://jitpack.io/#githubZYQ/umengLibDemo)
+
+[![](https://jitpack.io/v/com.gitee.zhang-yanqiang/umeng-lib.svg)](https://jitpack.io/#com.gitee.zhang-yanqiang/umeng-lib)
 
 ## 第二步：清单配置
 （${applicationId}换为自己主工程的包名）
@@ -101,12 +99,20 @@ https://developer.umeng.com/docs/67966/detail/98583
 IUmengRegisterCallback回调会传回注册成功和失败的信息,设备标志deviceToken可在onSuccess中获取。
 ```
 //预初始化（满足隐私合规政策，如不需要，可直接调用initPush()）
-UMengBuilder.preInit(this,appKey,appSecret,appChannel);
+//但是现在各应用商店审核都比较严格，建议先预初始化，此时不会请求任何设备隐私信息，待用户同意隐私政策后再执行initPush()
+PushHelper.preInit(this,appKey,appSecret,appChannel);
 //友盟push信息初始化-用户点击隐私协议弹窗“同意”后再进行真正的初始化
-boolean agree = true;
-if(agree){
-   initPush();
-}
+        if(hasAgreementAgreed){
+            //初始化友盟推送、统计
+            boolean isMainProcess = UMUtils.isMainProgress(this);
+            if (isMainProcess) {
+                //启动优化：建议在子线程中执行初始化
+                new Thread(() -> initPush()).start();
+            } else {
+                //若不是主进程（":channel"结尾的进程），直接初始化sdk，不可在子线程中执行
+                initPush();
+            }
+        }
 private void initPush(){
     String appKey ="友盟平台注册获取的appKey";
     String umengSecret ="友盟平台注册获取的umengSecret";
@@ -115,8 +121,10 @@ private void initPush(){
           .setOpenLog(false)
           //配置app信息
           .setAppkey(appKey,umengSecret)
+          //若和build.gradle中applicationId不一致，需调用此方法设置资源包名
+          .setAppResourcePackageName("配置资源包名，和applicationId一致时不需要设置")
           //推送注册回调
-           .setRegisterCallback(new IUmengRegisterCallback() {
+           .setRegisterCallback(new UPushRegisterCallback() {
                 @Override
                 public void onSuccess(String deviceToken) {
                 }
@@ -146,10 +154,15 @@ private void initPush(){
             .build(application);
  }
 ```
-2.（有推送才需要）注：该方法是【友盟+】Push后台进行日活统计及多维度推送的必调用方法，请务必调用！
+2.（有推送才需要）
+警告:
+该方法是推送平台多维度推送决策必调用的方法，请务必调用;
+需在用户同意隐私政策协议之后调用，否则会出现合规问题;
 在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加：
 ```
-PushAgent.getInstance(this).onAppStart();
+if (hasAgreementAgreed) {
+    PushAgent.getInstance(this).onAppStart();
+}
 ```
 ## 第五步：混淆配置
 如果项目开启打包混淆，需要添加如下混淆代码，如果未开启混淆可忽略跳过。
@@ -292,5 +305,15 @@ public void onMessage(Intent intent) {
     android:name=".TestMiPushActivity"
     android:exported="true"
     android:launchMode="singleTask"
-    android:theme="@style/AppTheme.NoActionBar"/>
+    android:theme="@style/AppTheme.NoActionBar">
+    <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="${applicationId}"
+                    android:path="/thirdpush"
+                    android:scheme="agoo" />
+    </intent-filter>
+</activity>
 ```

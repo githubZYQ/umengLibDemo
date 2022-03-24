@@ -16,6 +16,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PushAgent.getInstance(this).onAppStart();
+        boolean hasAgreementAgreed = true;
+        if(hasAgreementAgreed){
+            PushAgent.getInstance(this).onAppStart();
+        }
     }
 }
